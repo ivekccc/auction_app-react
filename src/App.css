@@ -1,3 +1,16 @@
+body {
+  margin: 0;
+  /* Uklanja podrazumevanu marginu sa strane */
+  padding: 0;
+  /* Uklanja podrazumevani padding sa strane */
+  background-image: url('./img/pozadina_aukcije');
+  /* Postavljanje pozadinske slike */
+  background-size: contain;
+  /* Podešavanje veličine slike tako da pokrije celu površinu */
+  background-attachment: fixed;
+  /* Fiksiranje slike na pozadini tako da ostane fiksna pri skrolovanju */
+}
+
 .App {
   text-align: center;
 }
@@ -42,7 +55,7 @@
 
 .navBar {
   height: 50px;
-  background-color: #61dafb;
+  background-color: #e4ebee;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -67,7 +80,7 @@ a {
   flex-direction: row;
   align-items: center;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  color: white;
+  color: rgb(20, 19, 19);
 }
 
 .loginDiv {
@@ -87,3 +100,78 @@ a {
 }
 
 /*End of NavBar CSS*/
+
+/* CSS for Auctions*/
+
+
+.auctionsPage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auctionsPageTitle {
+  font-size: 24px;
+}
+
+.auctionsPageContent {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  border-style: solid;
+  width: 35%;
+  margin: 1%;
+  border-radius: 5%;
+  border-width: 1px;
+  padding: 1%;
+  padding-top: 0;
+  background-color: #cadce2;
+}
+
+.card-header {
+  height: 10%;
+  width: 100%;
+  margin-top: 1%;
+}
+
+.cardUpperPart {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.cardUpperPartContent {
+  width: 50%;
+}
+
+.cardUpperPartImg {
+  display: flex;
+  width: 50%;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.btn-outline-primary {
+  background-color: white;
+  /* Podrazumevana boja pozadine */
+  color: #007bff;
+  /* Podrazumevana boja teksta */
+  border-color: #007bff;
+  font-size: 20px;
+  border-radius: 10%;
+  /* Boja ivice */
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  /* Boja pozadine pri houverovanju */
+  color: white;
+  /* Boja teksta pri houverovanju */
+  cursor: pointer;
+}
