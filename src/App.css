@@ -32,7 +32,58 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
+/*NavBar CSS*/
+
+.navBar {
+  height: 50px;
+  background-color: #61dafb;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 2%;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ikonica {
+  height: 90%;
+  margin: 2%;
+}
+
+.navBarH1 {
+  margin-left: 26%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: white;
+}
+
+.loginDiv {
+  height: 80%;
+  margin-left: 30%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.userIcon {
+  height: 100%;
+}
+
+.login {
+  height: 55%;
+}
+
+/*End of NavBar CSS*/
