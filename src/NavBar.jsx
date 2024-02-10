@@ -9,6 +9,11 @@ function NavBar() {
             <a href="">Auction App</a>
             <img src={ikonica} alt="ikonica" className='ikonica' />
             <h1 className='navBarH1'>Best Auction Site</h1>
+            <div className="createAuctionLink">
+                <a href="">
+                    Create New Auction!
+                </a>
+            </div>
             <div className='loginDiv'>
                 <img src={userIcon} alt="" className='userIcon' />
                 <a href="" className='login'>

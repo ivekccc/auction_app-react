@@ -2,7 +2,6 @@ import React from 'react'
 import './App.css';
 
 function OneAuction({ auction }) {
-
     return (
         <div className="card">
             <div className="card-header">
@@ -17,7 +16,7 @@ function OneAuction({ auction }) {
                         <p className='card-text'>{auction.current_price}</p>
                     </div>
                     <div className="cardUpperPartImg">
-                        <img src="https:/picsum.photos/200" alt="" />
+                        <img src={auction.image_path} alt="" className='slikaProizvoda' />
                     </div>
                 </div>
             </div>
