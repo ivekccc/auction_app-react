@@ -1,16 +1,3 @@
-body {
-  margin: 0;
-  /* Uklanja podrazumevanu marginu sa strane */
-  padding: 0;
-  /* Uklanja podrazumevani padding sa strane */
-  background-image: url('./img/pozadina_aukcije');
-  /* Postavljanje pozadinske slike */
-  background-size: contain;
-  /* Podešavanje veličine slike tako da pokrije celu površinu */
-  background-attachment: fixed;
-  /* Fiksiranje slike na pozadini tako da ostane fiksna pri skrolovanju */
-}
-
 .App {
   text-align: center;
 }

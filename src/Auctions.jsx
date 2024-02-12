@@ -4,16 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import './App.css';
 
-function Auctions() {
-    const [auctions, setAuctions] = useState();
-    useEffect(() => {
-        if (auctions == null) {
-            axios.get("api/allAuctions").then((res) => {
-                console.log(res.data);
-                setAuctions(res.data.auctions);
-            });
-        }
-    }, [auctions]);
+function Auctions({ auctions }) {
     return (
         <div className="auctionsPage">
             <div className='auctionsPageTitle'>
