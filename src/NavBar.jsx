@@ -3,8 +3,29 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ikonica from "./img/ikonica-removebg-preview.png"
 import userIcon from "./img/Sample_User_Icon-removebg-preview.png"
+import axios from 'axios';
 
-function NavBar({ loggedIn, userName, onLogout }) {
+function NavBar({ token, userData }) {
+    function handleLogout() {
+        let config = {
+            method: 'post',
+            url: 'api/logout',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+            },
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                window.sessionStorage.removeItem("auth_token");
+                window.sessionStorage.removeItem("user");
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
     return (
         <div className='navBar'>
             <Link to="/">Auction App</Link>
@@ -16,17 +37,18 @@ function NavBar({ loggedIn, userName, onLogout }) {
                 </a>
             </div>
             <div className='loginDiv'>
-                {loggedIn ? (
-                    <>
-                        <img src={userIcon} alt="" className='userIcon' />
-                        <span className='userName'>{userName}</span>
-                        <button onClick={onLogout} className='logout'>Logout</button>
-                    </>
-                ) : (
+                {token == null ? (
                     <Link to="/login" className='login'>
                         Login
-                    </Link>
-                )}
+                    </Link>) :
+                    (
+                        <>
+                            {userData.name}
+                            <a onClick={handleLogout}>
+                                Logout
+                            </a></>)
+                }
+
             </div>
         </div>
     );

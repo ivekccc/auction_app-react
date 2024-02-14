@@ -23,7 +23,7 @@ function Register() {
         e.preventDefault();
         axios.post("/api/register", userData).then((res) => {
             console.log(res.data);
-            navigate("/login");
+            navigate("/login"); 
         }).catch((e) => {
             console.log(e);
         });
