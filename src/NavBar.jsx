@@ -1,57 +1,86 @@
-// NavBar.js
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import ikonica from "./img/ikonica-removebg-preview.png"
-import userIcon from "./img/Sample_User_Icon-removebg-preview.png"
 import axios from 'axios';
+import ikonica from "./img/ikonica-removebg-preview.png";
 
 function NavBar({ token, userData }) {
-    function handleLogout() {
-        let config = {
-            method: 'post',
-            url: 'api/logout',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-            },
-        };
+  const [menuOpen, setMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const userNameRef = useRef(null);
 
-        axios.request(config)
-            .then((response) => {
-                console.log(JSON.stringify(response.data));
-                window.sessionStorage.removeItem("auth_token");
-                window.sessionStorage.removeItem("user");
-                window.location.reload();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleClickOutside = (event) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      !userNameRef.current.contains(event.target)
+    ) {
+      setMenuOpen(false);
     }
-    return (
-        <div className='navBar'>
-            <Link to="/">Auction App</Link>
-            <img src={ikonica} alt="ikonica" className='ikonica' />
-            <h1 className='navBarH1'>Best Auction Site</h1>
-            <div className="createAuctionLink">
-                <a href="/create_auction">
-                    Create New Auction!
-                </a>
-            </div>
-            <div className='loginDiv'>
-                {token == null ? (
-                    <Link to="/login" className='login'>
-                        Login
-                    </Link>) :
-                    (
-                        <>
-                            {userData.name}
-                            <a onClick={handleLogout}>
-                                Logout
-                            </a></>)
-                }
+  };
 
+  function handleLogout() {
+    let config = {
+      method: 'post',
+      url: 'api/logout',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+      },
+    };
+
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        sessionStorage.removeItem("auth_token");
+        sessionStorage.removeItem("user");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function handleDeposit() {
+    // Dodajte logiku za depozit
+  }
+
+  // Pretvaranje balansa u broj i primena toFixed
+  const formattedBalance = parseFloat(userData.balance).toFixed(2);
+
+  return (
+    <div className='navBar'>
+      <Link to="/">Auction App</Link>
+      <img src={ikonica} alt="ikonica" className='ikonica' />
+      <h1 className='navBarH1'>Best Auction Site</h1>
+      <div className="createAuctionLink">
+        <a href="/create_auction">Create New Auction!</a>
+      </div>
+      <div className='loginDiv'>
+        {token ? (
+          <div className="userMenu">
+            <div className="userName" ref={userNameRef} onClick={() => setMenuOpen(!menuOpen)}>
+              {userData.name} ${formattedBalance}
             </div>
-        </div>
-    );
+            {menuOpen && (
+              <div className="userDropdown" ref={dropdownRef}>
+                <div className="dropdownItem">Profile</div>
+                <div className="dropdownItem" onClick={handleDeposit}>Deposit</div>
+                <div className="dropdownItem" onClick={handleLogout}>Logout</div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default NavBar;

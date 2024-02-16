@@ -61,7 +61,7 @@ a {
 }
 
 .navBarH1 {
-  margin-left: 26%;
+  margin-left: 27%;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -71,17 +71,18 @@ a {
 }
 
 .createAuctionLink {
-  font-family: 'Courier New', Courier, monospace;
   margin-left: 20%;
 }
 
 .loginDiv {
   height: 80%;
-  margin-left: 2%;
+  margin-left: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-right: 20px; /* Dodajemo padding na desnoj strani */
 }
+
 
 .userIcon {
   height: 100%;
@@ -95,84 +96,131 @@ a {
 
 /* CSS for Auctions*/
 
+.categoryButtons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.categoryButtons button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 50px; /* Postavite na polovinu visine dugmeta za oblik elipse */
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
+.categoryButtons button.activeCategory {
+  background-color: #333;
+  color: #fff;
+}
+
 
 .auctionsPage {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 20px;
+  background: linear-gradient(to bottom, #7a82f1, #8f94fb);
+  min-height: 100vh;
 }
 
 .auctionsPageTitle {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auctionsPageTitle h3 {
   font-size: 24px;
+  font-weight: bold;
+  color: #fff;
 }
 
 .auctionsPageContent {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
 }
 
 .card {
-  border-style: solid;
-  width: 35%;
-  margin: 1%;
-  border-radius: 5%;
-  border-width: 1px;
-  padding: 1%;
-  padding-top: 0;
-  background-color: #cadce2;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.07); /* Povećava karticu za 5% */
+  z-index: 1;
 }
 
 .card-header {
-  height: 10%;
-  width: 100%;
-  margin-top: 1%;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.card-header h2 {
+  font-size: 20px;
+  color: #333;
+}
+
+.card-body {
+  padding: 20px;
 }
 
 .cardUpperPart {
   display: flex;
-  flex-direction: row;
-  width: 100%;
+  align-items: center;
 }
 
 .cardUpperPartContent {
-  width: 50%;
+  flex: 1;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #666;
 }
 
 .cardUpperPartImg {
-  display: flex;
-  width: 50%;
-  height: 70%;
-  align-items: flex-start;
-  justify-content: center;
+  flex: 1;
+  margin-left: 20px;
 }
 
 .slikaProizvoda {
   width: 100%;
-  height: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.card-footer {
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  text-align: center;
 }
 
 .btn-outline-primary {
-  background-color: white;
-  /* Podrazumevana boja pozadine */
-  color: #007bff;
-  /* Podrazumevana boja teksta */
   border-color: #007bff;
-  font-size: 20px;
-  border-radius: 10%;
-  /* Boja ivice */
+  color: #007bff;
+  width: 120px; /* Širina dugmeta */
+  height: 30px; /* Visina dugmeta */
+  border-radius: 20px; /* Zaobljeni rubovi */
+  font-size: 16px;
 }
 
 .btn-outline-primary:hover {
   background-color: #007bff;
-  /* Boja pozadine pri houverovanju */
-  color: white;
-  /* Boja teksta pri houverovanju */
-  cursor: pointer;
+  color: #fff;
 }
+
 
 
 /*LOGIN STRANICA*/
@@ -180,9 +228,9 @@ a {
 /* LoginPage.css */
 
 /* Stilizacija pozadine */
+/* Stil za Login i Register stranicu */
 .login-page {
   background: linear-gradient(135deg, #dce3ec, #71c4df);
-  /* Koristimo linearan gradijent boja */
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -192,16 +240,12 @@ a {
 /* Stilizacija kontejnera za formu */
 .login-container {
   max-width: 600px;
-  /* Povećavamo maksimalnu širinu kontejnera */
   width: 80%;
-  /* Postavljamo širinu na 80% roditeljskog elementa */
   padding: 40px;
-  /* Povećavamo unutrašnji prostor oko forme */
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px;
-  /* Dodajemo margine oko kontejnera */
 }
 
 /* Stilizacija naslova */
@@ -254,3 +298,144 @@ a {
 .register-link a:hover {
   color: #0056b3;
 }
+
+.create-auction-page {
+  background: linear-gradient(135deg, #dce3ec, #71c4df);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-auction-form {
+    max-width: 500px;
+    width: 90%;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.create-auction-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.create-auction-form .form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.create-auction-form .form-control {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.create-auction-form .form-control:focus {
+  background-color: #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.create-auction-form .btn-primary {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  background-color: #667eea;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-auction-form .btn-primary:hover {
+  background-color: #5a67d8;
+}
+
+.create-auction-form .btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.5);
+}
+.create-auction-form .form-select {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.create-auction-form .form-select:focus {
+  background-color: #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.create-auction-form .form-select option {
+  background-color: #fff;
+  color: #333;
+  font-weight: normal;
+}
+
+/* Stilizacija padajućeg menija */
+.create-auction-form .form-select {
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+.create-auction-form .form-select::after {
+  content: '\25BC'; /* strelica nadole */
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.form-title {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  color: #333;
+  text-align: center; /* Centriranje teksta horizontalno */
+  margin-top: 0; /* Uklanja defaultni margin na vrhu */
+  padding-top: 10px; /* Dodaje malo više prostora iznad naslova */
+}
+.userMenu {
+  position: relative;
+}
+
+.userName {
+  cursor: pointer;
+}
+
+.userDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 130px; /* Podesite željenu širinu */
+}
+
+
+.dropdownItem {
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.dropdownItem:hover {
+  background-color: #f0f0f0;
+}
+
+

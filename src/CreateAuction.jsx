@@ -1,26 +1,26 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 function CreateAuction({ categories }) {
-    const [productData, setProductData] = useState(
-        {
-            "product_name": "",
-            "category_id": "",
-            "description": "",
-            "start_price": 0,
-            "image_path": ""
-        }
-    );
+    const [productData, setProductData] = useState({
+        "product_name": "",
+        "category_id": "",
+        "description": "",
+        "start_price": 0,
+        "image_path": ""
+    });
+
     function handleInput(e) {
-        let newProductData = productData;
-        newProductData[e.target.name] = e.target.value;
-        setProductData(newProductData);
+        setProductData({
+            ...productData,
+            [e.target.name]: e.target.value
+        });
     }
+
     function handleAddProduct(e) {
         e.preventDefault();
         const token = sessionStorage.getItem('auth_token');
-        axios.post("api/auctions", productData, {
+        axios.post("/api/auctions", productData, {
             headers: {
                 Authorization: `Bearer ${token}` // Dodajte token u zaglavlje za autentifikaciju
             }
@@ -30,44 +30,76 @@ function CreateAuction({ categories }) {
             console.error('Greška prilikom dodavanja proizvoda:', error);
         });
     }
+
     return (
-        <div>
-            <form onSubmit={handleAddProduct}>
-                <div className="input-group mb-3">
-                    <span className="input-group-text" id="basic-addon1">Product name:</span>
-                    <input type="text" onInput={handleInput} className="form-control" name="product_name" placeholder="Product name" aria-label="ProductName" aria-describedby="basic-addon1" />
+        <div className="create-auction-page">
+            <form onSubmit={handleAddProduct} className="create-auction-form">
+                <h2 className="form-title">Create New Auction</h2>
+                <div className="form-group mb-3">
+                    <label htmlFor="productName" className="form-label">Product name:</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="productName"
+                        name="product_name"
+                        placeholder="Enter product name"
+                        onInput={handleInput}
+                    />
                 </div>
-                <div className="input-group">
-                    <span className="input-group-text">Product Description:</span>
-                    <textarea className="form-control" onInput={handleInput} name="description" aria-label="Description"></textarea>
+                <div className="form-group mb-3">
+                    <label htmlFor="description" className="form-label">Product Description:</label>
+                    <textarea
+                        className="form-control"
+                        id="description"
+                        name="description"
+                        placeholder="Enter product description"
+                        onInput={handleInput}
+                    ></textarea>
                 </div>
-
-                <div className="input-group mb-3">
-                    <span className="input-group-text">Starting price:</span>
-                    <input type="text" className="form-control" onInput={handleInput} name="start_price" aria-label="Amount (to the nearest dollar)" placeholder='$' />
-                    <span className="input-group-text">.00</span>
+                <div className="form-group mb-3">
+                    <label htmlFor="startPrice" className="form-label">Starting price:</label>
+                    <div className="input-group">
+                        <span className="input-group-text">$</span>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="startPrice"
+                            name="start_price"
+                            placeholder="Enter starting price"
+                            onInput={handleInput}
+                        />
+                        <span className="input-group-text">.00</span>
+                    </div>
                 </div>
-
-                <div className="input-group mb-3">
-                    <span className="input-group-text">Image path:</span>
-                    <input type="text" onInput={handleInput} className="form-control" name="image_path" placeholder='.img/name' />
+                <div className="form-group mb-3">
+                    <label htmlFor="imagePath" className="form-label">Image path:</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="imagePath"
+                        name="image_path"
+                        placeholder="Enter image path"
+                        onInput={handleInput}
+                    />
                 </div>
-
-
-                <div className="col-md-3">
-                    <label htmlFor="validationCustom04" className="form-label">Category:</label>
-                    <select onInput={handleInput} name="category_id" className="form-select" id="validationCustom04" required>
-                        <option selected disabled value="">Choose...</option>
-                        {/* Provera da li su kategorije definisane pre mapiranja */}
+                <div className="form-group mb-3">
+                    <label htmlFor="category" className="form-label">Category:</label>
+                    <select
+                        className="form-select"
+                        id="category"
+                        name="category_id"
+                        onChange={handleInput}
+                    >
+                        <option selected disabled>Choose category</option>
                         {categories && categories.map(category => (
                             <option key={category.id} value={category.id}>{category.id}. {category.category_name}</option>
                         ))}
                     </select>
                 </div>
-                <button type="submit">Add product</button>
+                <button type="submit" className="btn btn-primary">Add Product</button>
             </form>
         </div>
-    )
+    );
 }
 
-export default CreateAuction
+export default CreateAuction;
