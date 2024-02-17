@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import './App.css'; // Uvozimo CSS datoteku za stilizaciju
+import './App.css';
+import { Link } from 'react-router-dom';
 
 function AuctionDetails({categories}) {
   const { id } = useParams();
@@ -26,6 +27,7 @@ function AuctionDetails({categories}) {
         setLoading(false);
       });
   }, [id]);
+
   useEffect(() => {
     // Dohvatanje korisnika na osnovu user_id-a
     if (auction) {
@@ -52,6 +54,7 @@ function AuctionDetails({categories}) {
       setCurrentBidderName("Currently no bids on this auction");
     }
   };
+
   useEffect(() => {
     fetchBidderName();
   }, [auction]);
@@ -112,7 +115,7 @@ function AuctionDetails({categories}) {
 
   return (
     <div className="auction-details">
-       <h1><strong>{auction.product_name}</strong></h1>
+      <h1><strong>{auction.product_name}</strong></h1>
       <div className="auction-details-container">
         <div className="auction-details-image">
           <img src={auction.image_path} alt="Auction" />
@@ -122,28 +125,30 @@ function AuctionDetails({categories}) {
           <div className="auction-details-text">
             <p><strong>Category:</strong> {categories && categories.find(category => category.id === auction.category_id)?.category_name}</p>
             <p><strong>Owner:</strong> {userName}</p>
-            <p><strong>Start Price:</strong> {auction.start_price}</p>
-            <p><strong>Start Time:</strong> {auction.start}</p>
+            <p><strong>Start Price:</strong> ${auction.start_price}</p>
+            <p><strong>Created At:</strong> {auction.start}</p>
             <div className="vertical-space"></div>
             <p><strong>Closing in:</strong> {timeRemaining && `${timeRemaining.days}d ${timeRemaining.hours}h ${timeRemaining.minutes}m ${timeRemaining.seconds}s`}</p>
             <p><strong>Current Price:</strong> {auction.current_price}</p>
             {currentBidderName !== null && (
-  <p><strong>Current Bidder:</strong> {currentBidderName}</p>
-)}
+              <p><strong>Current Bidder:</strong> {currentBidderName}</p>
+            )}
           </div>
           <button className="auction-details-bid-button" onClick={handleBid}>Bid Now</button>
         </div>
       </div>
 
-      {/* Sekcija "U may also like" */}
+      {/* Sekcija "You may also like" */}
       <div className="related-auctions">
-        <h2>U may also like</h2>
-        <div className="related-auctions-list">
+        <h2>You may also like</h2>
+        <div className="related-auctions-scroll">
           {relatedAuctions.map(relatedAuction => (
-            <div key={relatedAuction.id} className="related-auction-card">
-              <img src={relatedAuction.image_path} alt="Related Auction" />
-              <p>{relatedAuction.product_name}</p>
-            </div>
+            <Link key={relatedAuction.id} to={`/auction/${relatedAuction.id}`} className="related-auction-card">
+              <div className="related-auction-card">
+                <img src={relatedAuction.image_path} alt="Related Auction" />
+                <p>{relatedAuction.product_name}</p>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

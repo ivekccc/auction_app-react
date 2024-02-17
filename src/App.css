@@ -501,36 +501,34 @@ a {
 
 .related-auctions {
   margin-top: 40px;
+  width: 60%;
 }
 
-.related-auctions h2 {
-  margin-bottom: 20px;
-}
-
-.related-auctions-list {
+.related-auctions-scroll {
   display: flex;
-  overflow-x: auto;
+  overflow-x: auto; /* Omogućava horizontalni scroll */
 }
 
 .related-auction-card {
-  margin-right: 20px;
-  flex-shrink: 0;
-  width: 200px;
-  text-align: center;
+  flex: 0 0 auto; /* Omogućava da se kartice aukcija prikazuju u jednom redu */
+  margin-right: 10px;
+  max-width: 150px;
+  min-width: 20px;
+  text-align: center; /* Minimalna širina kartice */
 }
 
 .related-auction-card img {
   max-width: 100%;
   height: auto;
-  margin-bottom: 10px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
 }
 
-
-@media screen and (max-width: 768px) {
-  .related-auction-card {
-    width: 150px;
-  }
+.related-auction-card p {
+  margin-top: 5px;
+  font-size: 14px;
 }
+
 
 
 
