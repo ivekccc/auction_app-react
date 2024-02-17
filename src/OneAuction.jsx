@@ -1,5 +1,7 @@
 import React from 'react'
 import './App.css';
+import { Link } from 'react-router-dom';
+
 
 function OneAuction({ auction }) {
     return (
@@ -21,7 +23,7 @@ function OneAuction({ auction }) {
                 </div>
             </div>
             <div className='card-footer'>
-                <button type="button" className="btn btn-outline-primary">See more</button>
+            <Link to={`/auction/${auction.id}`} className="btn btn-outline-primary">See more</Link>
             </div>
         </div>
 

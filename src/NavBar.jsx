@@ -51,7 +51,7 @@ function NavBar({ token, userData }) {
   }
 
   // Pretvaranje balansa u broj i primena toFixed
-  const formattedBalance = parseFloat(userData.balance).toFixed(2);
+
 
   return (
     <div className='navBar'>
@@ -64,13 +64,15 @@ function NavBar({ token, userData }) {
       <div className='loginDiv'>
         {token ? (
           <div className="userMenu">
-            <div className="userName" ref={userNameRef} onClick={() => setMenuOpen(!menuOpen)}>
-              {userData.name} ${formattedBalance}
-            </div>
+            {userData && (
+  <div className="userName" ref={userNameRef} onClick={() => setMenuOpen(!menuOpen)}>
+    {userData.name} ${parseFloat(userData.balance || 0).toFixed(2)}
+  </div>
+)}
             {menuOpen && (
               <div className="userDropdown" ref={dropdownRef}>
-                <div className="dropdownItem">Profile</div>
                 <div className="dropdownItem" onClick={handleDeposit}>Deposit</div>
+                <div className="dropdownItem">Profile</div>
                 <div className="dropdownItem" onClick={handleLogout}>Logout</div>
               </div>
             )}

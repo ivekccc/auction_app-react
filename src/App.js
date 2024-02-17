@@ -6,6 +6,9 @@ import LoginPage from './LoginPage';
 import Register from './Register';
 import CreateAuction from './CreateAuction';
 import Auctions from './Auctions';
+import AuctionDetails from './AuctionDetails';
+
+
 
 function App() {
   const [token, setToken] = useState(() => sessionStorage.getItem('auth_token'));
@@ -51,6 +54,7 @@ function App() {
         <Route exact path="/create_auction" element={isLoggedIn() ? <CreateAuction categories={categories} /> : <Navigate to="/login" />} />
         <Route path="/login" element={<LoginPage addToken={addToken} addUser={addUser} />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/auction/:id" element={<AuctionDetails categories={categories}/>} />
       </Routes>
     </BrowserRouter>
   );
