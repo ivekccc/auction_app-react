@@ -7,6 +7,7 @@ import Register from './Register';
 import CreateAuction from './CreateAuction';
 import Auctions from './Auctions';
 import AuctionDetails from './AuctionDetails';
+import DepositPage from './DepositPage';
 
 function App() {
   const [token, setToken] = useState(() => sessionStorage.getItem('auth_token'));
@@ -55,6 +56,7 @@ function App() {
           />
           <Route path="/login" element={<LoginPage addToken={addToken} addUser={addUser} />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/deposit" element={<DepositPage token={token}/>}/>
           <Route path="/auction/:id" element={<AuctionDetails categories={categories} token={token} userData={userData} />} />
         </Routes>
       </React.Fragment>
