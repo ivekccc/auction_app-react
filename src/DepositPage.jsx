@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function DepositPage({token}) {
+function DepositPage({token,logedUser,setLogedUser}) {
     const [amount, setAmount] = useState('');
+    let navigate=useNavigate();
 
     function handleDeposit(event) {
       event.preventDefault();
@@ -24,7 +26,13 @@ function DepositPage({token}) {
       axios.request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        window.location.reload();
+        if (response.data.new_balance !== undefined) {
+          // Ažuriramo samo balance atribut logedUser objekta
+          setLogedUser(prevLogedUser => ({
+            ...prevLogedUser,
+            balance: response.data.new_balance
+          }));
+        }
       })
       .catch((error) => {
         console.log(error);

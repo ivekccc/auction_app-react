@@ -4,11 +4,10 @@ import ikonica from './img/ikonica-removebg-preview.png';
 import axios from 'axios';
 
 
-function NavBar({ token, userData }) {
+function NavBar({ token, userData ,logedUser}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const userNameRef = useRef(null);
-  const [logedUser, setLogedUser] = useState(null);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -16,26 +15,6 @@ function NavBar({ token, userData }) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-  useEffect(() => {
-    if (token) {
-      LogedUser();
-    }
-  }, [token]);
-
-  const LogedUser = async () => {
-    try {
-      const response = await axios.get('/api/profile', {
-        headers: {
-          'Authorization': 'Bearer ' + token,
-        }
-      });
-      setLogedUser(response.data);
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      // Handle error, for example, show an error message to the user
-    }
-  };
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !userNameRef.current.contains(event.target)) {
