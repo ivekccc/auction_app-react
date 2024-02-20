@@ -4,11 +4,12 @@ import axios from 'axios';
 import './App.css';
 import { Link } from 'react-router-dom';
 
-function AuctionDetails({categories}) {
+function AuctionDetails({ categories, token, userData }) {
   const { id } = useParams();
   const [auction, setAuction] = useState(null);
   const [relatedAuctions, setRelatedAuctions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userBalance, setUserBalance] = useState(userData ? userData.balance : 0); // Dodajemo proveru za userData
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
   const [currentBidderName, setCurrentBidderName] = useState(null);
@@ -72,10 +73,33 @@ function AuctionDetails({categories}) {
     }
   }, [auction]);
 
-  const handleBid = () => {
-    // Implementacija logike za bidovanje
-    console.log('Bid placed!');
-  };
+  function handleBid() {
+    let data = JSON.stringify({
+      "auction_id": auction.id,
+    });
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'api/auctions/bid',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      data: data
+    };
+
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setUserBalance(response.data.new_balance);
+        const updatedUserData = { ...userData, balance: response.data.new_balance };
+        window.sessionStorage.setItem("user", JSON.stringify(updatedUserData));
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   // Funkcija koja računa preostalo vreme
   const calculateTimeRemaining = (endTime) => {
@@ -129,9 +153,16 @@ function AuctionDetails({categories}) {
             <p><strong>Created At:</strong> {auction.start}</p>
             <div className="vertical-space"></div>
             <p><strong>Closing in:</strong> {timeRemaining && `${timeRemaining.days}d ${timeRemaining.hours}h ${timeRemaining.minutes}m ${timeRemaining.seconds}s`}</p>
-            <p><strong>Current Price:</strong> {auction.current_price}</p>
+            <p><strong>Current Price:</strong> ${auction.current_price}</p>
             {currentBidderName !== null && (
-              <p><strong>Current Bidder:</strong> {currentBidderName}</p>
+              <p>
+              <strong>Current Bidder:</strong>
+              {userData ?
+                (currentBidderName === userData.name ? "You are currently the highest bidder on this auction!" : currentBidderName)
+                :
+                currentBidderName
+              }
+            </p>
             )}
           </div>
           <button className="auction-details-bid-button" onClick={handleBid}>Bid Now</button>

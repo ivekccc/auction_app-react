@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NavBar from './NavBar';
 import LoginPage from './LoginPage';
 import Register from './Register';
@@ -8,18 +8,15 @@ import CreateAuction from './CreateAuction';
 import Auctions from './Auctions';
 import AuctionDetails from './AuctionDetails';
 
-
-
 function App() {
   const [token, setToken] = useState(() => sessionStorage.getItem('auth_token'));
-  const [userData, setUserData] = useState(() => JSON.parse(sessionStorage.getItem("user")));
-  const [auctions, setAuctions] = useState();
-  const [categories, setCategories] = useState();
+  const [userData, setUserData] = useState(() => JSON.parse(sessionStorage.getItem('user')));
+  const [auctions, setAuctions] = useState(null);
+  const [categories, setCategories] = useState(null);
 
   useEffect(() => {
     if (!auctions) {
-      axios.get("api/allAuctions").then((res) => {
-        console.log(res.data);
+      axios.get('api/allAuctions').then((res) => {
         setAuctions(res.data.auctions);
       });
     }
@@ -27,8 +24,7 @@ function App() {
 
   useEffect(() => {
     if (!categories) {
-      axios.get("api/categories").then((res) => {
-        console.log(res.data);
+      axios.get('api/categories').then((res) => {
         setCategories(res.data.categories);
       });
     }
@@ -48,14 +44,20 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar token={token} userData={userData} />
-      <Routes>
-        <Route path="/" element={<Auctions auctions={auctions} categories={categories} />} />
-        <Route exact path="/create_auction" element={isLoggedIn() ? <CreateAuction categories={categories} /> : <Navigate to="/login" />} />
-        <Route path="/login" element={<LoginPage addToken={addToken} addUser={addUser} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/auction/:id" element={<AuctionDetails categories={categories}/>} />
-      </Routes>
+      <React.Fragment>
+        <NavBar token={token} userData={userData} />
+        <Routes>
+          <Route path="/" element={<Auctions auctions={auctions} categories={categories} />} />
+          <Route
+            exact
+            path="/create_auction"
+            element={isLoggedIn() ? <CreateAuction categories={categories} /> : <Navigate to="/login" />}
+          />
+          <Route path="/login" element={<LoginPage addToken={addToken} addUser={addUser} />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/auction/:id" element={<AuctionDetails categories={categories} token={token} userData={userData} />} />
+        </Routes>
+      </React.Fragment>
     </BrowserRouter>
   );
 }

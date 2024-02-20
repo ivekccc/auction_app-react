@@ -1,37 +1,38 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage({ addToken, addUser }) {
   let navigate = useNavigate();
-  const [userData, setUserData] = useState(
-    {
-      "email": "",
-      "password": "",
-    }
-  );
-  function handleInput(e) {
-    let newUserData = userData;
-    newUserData[e.target.name] = e.target.value;
-    setUserData(newUserData);
-  }
-  function handleLogin(e) {
-    e.preventDefault();
-    axios.post("/api/login", userData).then((res) => {
-      console.log(res.data);
-      if (res.data.success === true) {
-        window.sessionStorage.setItem("auth_token", res.data.access_token);
-        window.sessionStorage.setItem("user", JSON.stringify(res.data.user));
-        addToken(res.data.access_token);
-        addUser(res.data.user);
-        navigate("/");
+  const [userData, setUserData] = useState({
+    "email": "",
+    "password": "",
+  });
 
-      }
-    }).catch((e) => {
-      console.log(e);
+  const handleInput = (e) => {
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value
     });
-  }
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    axios.post("/api/login", userData)
+      .then((res) => {
+        if (res.data.success === true) {
+          window.sessionStorage.setItem("auth_token", res.data.access_token);
+          window.sessionStorage.setItem("user", JSON.stringify(res.data.user));
+          addToken(res.data.access_token);
+          addUser(res.data.user);
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <section className="login-page">
       <div className="login-container">
@@ -69,4 +70,4 @@ function LoginPage({ addToken, addUser }) {
   );
 }
 
-export default LoginPage
+export default LoginPage;

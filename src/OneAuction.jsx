@@ -14,8 +14,7 @@ function OneAuction({ auction }) {
                     <div className="cardUpperPartContent"><h5 className="card-title">CategoryID: {auction.category_id}</h5>
                         <p className="card-text">Started: {auction.start}</p>
                         <p className="card-text">Ends: {auction.end}</p>
-                        <p className='card-text'>Current Price:</p>
-                        <p className='card-text'>{auction.current_price}</p>
+                        <p className='card-text'>Current Price:{auction.current_price}</p>
                     </div>
                     <div className="cardUpperPartImg">
                         <img src={auction.image_path} alt="" className='slikaProizvoda' />
