@@ -4,9 +4,8 @@ import axios from 'axios';
 function DepositPage({token}) {
     const [amount, setAmount] = useState('');
 
-    function handleDeposit() {
-
-
+    function handleDeposit(event) {
+      event.preventDefault();
       let data = JSON.stringify({
         "amount": amount
       });
@@ -25,6 +24,7 @@ function DepositPage({token}) {
       axios.request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
