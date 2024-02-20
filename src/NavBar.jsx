@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import ikonica from './img/ikonica-removebg-preview.png';
 import axios from 'axios';
 
+
 function NavBar({ token, userData }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -48,6 +49,8 @@ function NavBar({ token, userData }) {
     window.location.reload();
   };
 
+
+
   return (
     <div className="navBar">
       <Link to="/">Auction App</Link>
@@ -66,7 +69,7 @@ function NavBar({ token, userData }) {
 )}
             {menuOpen && (
               <div className="userDropdown" ref={dropdownRef}>
-                <div className="dropdownItem">Deposit</div>
+                <div className="dropdownItem"><a href="/deposit">Deposit</a></div>
                 <div className="dropdownItem">Profile</div>
                 <div className="dropdownItem" onClick={handleLogout}>Logout</div>
               </div>
