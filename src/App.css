@@ -587,3 +587,96 @@ a {
   align-items: center;
   background: linear-gradient(135deg, #dce3ec, #71c4df);
 }
+
+/*Profile page CSS*/
+
+.profile-page {
+  background: linear-gradient(135deg, #dce3ec, #71c4df);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-container {
+  max-width: 500px;
+  min-height: 400px;
+  width: 90%;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-container .form-group {
+  margin-bottom: 20px; /* Vertikalni razmak između form grupa */
+}
+
+.profile-container label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.profile-container input[type='text'],
+.profile-container input[type='email'],
+.profile-container input[type='tel'] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  width: 92%;
+}
+
+.profile-container input[type='text']:focus,
+.profile-container input[type='email']:focus,
+.profile-container input[type='tel']:focus {
+  background-color: #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-container .button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; /* Razmak između grupa dugmadi */
+}
+
+.profile-container button {
+  width: 48%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #667eea;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Dodajemo animaciju */
+}
+
+.profile-container button:hover {
+  background-color: #5a67d8;
+}
+
+.profile-container button:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.5);
+}
+

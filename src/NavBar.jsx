@@ -49,7 +49,7 @@ function NavBar({ token, userData ,logedUser}) {
             {menuOpen && (
               <div className="userDropdown" ref={dropdownRef}>
                 <div className="dropdownItem"><a href="/deposit">Deposit</a></div>
-                <div className="dropdownItem">Profile</div>
+                <div className="dropdownItem"><a href="/profile">Profile</a></div>
                 <div className="dropdownItem" onClick={handleLogout}>Logout</div>
               </div>
             )}
