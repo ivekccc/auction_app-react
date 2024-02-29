@@ -10,8 +10,11 @@ function Register() {
     "password": "",
     "phone_number": ""
   });
-
-  let navigate = useNavigate();
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [registrationError, setRegistrationError] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [showNotification, setShowNotification] = useState(false);
+  const navigate = useNavigate();
 
   const handleInput = (e) => {
     setUserData({
@@ -24,9 +27,42 @@ function Register() {
     e.preventDefault();
     axios.post("/api/register", userData)
       .then((res) => {
-        navigate("/login");
+        console.log(res.data);
+        setRegistrationSuccess(true);
+        setNotificationMessage("Registration successful! Redirecting to login page...");
+        setShowNotification(true);
+        setRegistrationError("");
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000); // Preusmerava na /login nakon 2 sekunde
       })
       .catch((error) => {
+        if (error.response && error.response.data) {
+          const responseData = error.response.data;
+          let errorMessages = [];
+
+          if (responseData.username) {
+            errorMessages.push(responseData.username[0]);
+          }
+          if (responseData.name) {
+            errorMessages.push(responseData.name[0]);
+          }
+          if (responseData.email) {
+            errorMessages.push(responseData.email[0]);
+          }
+          if (responseData.password) {
+            errorMessages.push(responseData.password[0]);
+          }
+          if (responseData.phone_number) {
+            errorMessages.push(responseData.phone_number[0]);
+          }
+
+          setRegistrationError(errorMessages.join(''));
+        } else {
+          setRegistrationError("Registration failed. Please try again.");
+        }
+        setRegistrationSuccess(false);
+        setShowNotification(true);
         console.error(error);
       });
   };
@@ -86,6 +122,16 @@ function Register() {
               Register
             </button>
           </form>
+          {showNotification && registrationSuccess && (
+            <div className="notification success">
+              <p>{notificationMessage}</p>
+            </div>
+          )}
+          {showNotification && !registrationSuccess && (
+            <div className="notification error">
+              <p>{registrationError}</p>
+            </div>
+          )}
           <p className="register-link">
             Already have an account? <a href="/login">Login</a>
           </p>

@@ -238,6 +238,35 @@ a {
   align-items: center;
 }
 
+.notification {
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.notification p {
+  margin: 0;
+}
+
+.notification.success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.notification.error {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.login-link {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
 /* Stilizacija kontejnera za formu */
 .login-container {
   max-width: 600px;
