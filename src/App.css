@@ -499,6 +499,12 @@ a {
   background-color: #0056b3;
 }
 
+.auction-details-bid-button[disabled] {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
 .related-auctions {
   margin-top: 40px;
   width: 60%;

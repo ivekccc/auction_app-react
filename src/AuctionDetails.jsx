@@ -74,6 +74,10 @@ function AuctionDetails({ categories, token, userData }) {
   }, [auction]);
 
   function handleBid() {
+    if (timeRemaining === 'Auction is closed') {
+      return; // Ne dozvoljavamo licitiranje ako je aukcija zatvorena
+    }
+
     let data = JSON.stringify({
       "auction_id": auction.id,
     });
@@ -107,12 +111,16 @@ function AuctionDetails({ categories, token, userData }) {
     const nowMillis = new Date().getTime();
     const timeDiff = endTimeMillis - nowMillis;
 
-    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    if (timeDiff <= 0) {
+      setTimeRemaining('Auction is closed');
+    } else {
+      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-    setTimeRemaining({ days, hours, minutes, seconds });
+      setTimeRemaining({ days, hours, minutes, seconds });
+    }
   };
 
   useEffect(() => {
@@ -152,20 +160,20 @@ function AuctionDetails({ categories, token, userData }) {
             <p><strong>Start Price:</strong> ${auction.start_price}</p>
             <p><strong>Created At:</strong> {auction.start}</p>
             <div className="vertical-space"></div>
-            <p><strong>Closing in:</strong> {timeRemaining && `${timeRemaining.days}d ${timeRemaining.hours}h ${timeRemaining.minutes}m ${timeRemaining.seconds}s`}</p>
+            <p><strong>Closing in:</strong> {typeof timeRemaining === 'object' ? `${timeRemaining.days}d ${timeRemaining.hours}h ${timeRemaining.minutes}m ${timeRemaining.seconds}s` : timeRemaining}</p>
             <p><strong>Current Price:</strong> ${auction.current_price}</p>
             {currentBidderName !== null && (
               <p>
-              <strong>Current Bidder:</strong>
-              {userData ?
-                (currentBidderName === userData.name ? "You are currently the highest bidder on this auction!" : currentBidderName)
-                :
-                currentBidderName
-              }
-            </p>
+                <strong>Current Bidder:</strong>
+                {userData ?
+                  (currentBidderName === userData.name ? "You are currently the highest bidder on this auction!" : currentBidderName)
+                  :
+                  currentBidderName
+                }
+              </p>
             )}
           </div>
-          <button className="auction-details-bid-button" onClick={handleBid}>Bid Now</button>
+          <button className="auction-details-bid-button" onClick={handleBid} disabled={timeRemaining === 'Auction is closed'}>Bid Now</button>
         </div>
       </div>
 
