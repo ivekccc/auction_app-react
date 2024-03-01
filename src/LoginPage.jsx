@@ -8,6 +8,9 @@ function LoginPage({ addToken, addUser }) {
     "email": "",
     "password": "",
   });
+  const [loginMessage,setLoginMessage] = useState("");
+  const [showNotification, setShowNotification] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
 
   const handleInput = (e) => {
     setUserData({
@@ -25,10 +28,22 @@ function LoginPage({ addToken, addUser }) {
           window.sessionStorage.setItem("user", JSON.stringify(res.data.user));
           addToken(res.data.access_token);
           addUser(res.data.user);
-          navigate("/");
+          setLoginSuccess(true);
+        setLoginMessage("Login successful! Redirecting to HomePage...");
+          setShowNotification(true);
+          setTimeout(() => {
+            navigate("/");
+          }, 2000); // Preusmerava na / nakon 2 sekunde
+        } else {
+          setLoginSuccess(false);
+        setLoginMessage("Login failed. Please try again.");
+          setShowNotification(true);
         }
       })
       .catch((error) => {
+        setLoginSuccess(false);
+      setLoginMessage("Login failed. Please try again.");
+        setShowNotification(true);
         console.error(error);
       });
   };
@@ -61,6 +76,12 @@ function LoginPage({ addToken, addUser }) {
               Login
             </button>
           </form>
+          {/* Snackbar */}
+          {showNotification && (
+            <div className={`notification ${loginSuccess ? "success" : "error"}`}>
+              <p>{loginMessage}</p>
+            </div>
+          )}
           <p className="register-link">
             Don't have an account? <a href="/register">Register</a>
           </p>
