@@ -9,19 +9,20 @@ function AuctionDetails({ categories, token, userData }) {
   const [auction, setAuction] = useState(null);
   const [relatedAuctions, setRelatedAuctions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [userBalance, setUserBalance] = useState(userData ? userData.balance : 0); // Dodajemo proveru za userData
+  const [userBalance, setUserBalance] = useState(userData ? userData.balance : 0);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState(null);
   const [currentBidderName, setCurrentBidderName] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(null);
+  const [bidMessage, setBidMessage] = useState("");
+  const [buttonShaking, setButtonShaking] = useState(false);
 
   useEffect(() => {
-    // Dohvatanje podataka o trenutnoj aukciji
     axios.get(`api/auction/${id}`)
       .then(response => {
         setAuction(response.data.auctions);
         setLoading(false);
-        calculateTimeRemaining(response.data.auctions.end); // Pokrenemo funkciju za računanje preostalog vremena
+        calculateTimeRemaining(response.data.auctions.end);
       })
       .catch(error => {
         setError(error.response ? error.response.data.message : 'Unknown error occurred');
@@ -30,7 +31,6 @@ function AuctionDetails({ categories, token, userData }) {
   }, [id]);
 
   useEffect(() => {
-    // Dohvatanje korisnika na osnovu user_id-a
     if (auction) {
       axios.get(`api/users/${auction.user_id}`)
         .then(response => {
@@ -61,7 +61,6 @@ function AuctionDetails({ categories, token, userData }) {
   }, [auction]);
 
   useEffect(() => {
-    // Dohvatanje svih aukcija iz iste kategorije kao trenutna aukcija
     if (auction) {
       axios.get(`api/categories/${auction.category_id}/auctions`)
         .then(response => {
@@ -75,7 +74,7 @@ function AuctionDetails({ categories, token, userData }) {
 
   function handleBid() {
     if (timeRemaining === 'Auction is closed') {
-      return; // Ne dozvoljavamo licitiranje ako je aukcija zatvorena
+      return;
     }
 
     let data = JSON.stringify({
@@ -98,14 +97,28 @@ function AuctionDetails({ categories, token, userData }) {
         setUserBalance(response.data.new_balance);
         const updatedUserData = { ...userData, balance: response.data.new_balance };
         window.sessionStorage.setItem("user", JSON.stringify(updatedUserData));
-        window.location.reload();
+
+        setBidMessage("Bid made successfully");
+        setButtonShaking(true);
+        setTimeout(() => {
+          setBidMessage("");
+          setButtonShaking(false);
+        }, 2000);
+        setTimeout(() => {
+        window.location.reload(); // Refresovanje stranice nakon 3 sekunde
+      }, 2000);
+
       })
       .catch((error) => {
         console.log(error);
+        setBidMessage("Error: " + error.response.data.message);
+        setButtonShaking(true);
+        setTimeout(() => {
+          setButtonShaking(false);
+        }, 2000);
       });
   }
 
-  // Funkcija koja računa preostalo vreme
   const calculateTimeRemaining = (endTime) => {
     const endTimeMillis = new Date(endTime).getTime();
     const nowMillis = new Date().getTime();
@@ -124,12 +137,10 @@ function AuctionDetails({ categories, token, userData }) {
   };
 
   useEffect(() => {
-    // Postavljanje intervala za ažuriranje preostalog vremena svake sekunde
     const interval = setInterval(() => {
       calculateTimeRemaining(auction.end);
     }, 1000);
 
-    // Očisti interval kada se komponenta unmountuje
     return () => clearInterval(interval);
   }, [auction]);
 
@@ -173,11 +184,15 @@ function AuctionDetails({ categories, token, userData }) {
               </p>
             )}
           </div>
-          <button className="auction-details-bid-button" onClick={handleBid} disabled={timeRemaining === 'Auction is closed'}>Bid Now</button>
+          <button className={`auction-details-bid-button ${buttonShaking ? "shake" : ""}`} onClick={handleBid} disabled={timeRemaining === 'Auction is closed'}>Bid Now</button>
+          {bidMessage && (
+  <p className={`bid-message ${bidMessage.startsWith("Error") ? "error" : ""}`}>
+    {bidMessage}
+  </p>
+)}
         </div>
       </div>
 
-      {/* Sekcija "You may also like" */}
       <div className="related-auctions">
         <h2>You may also like</h2>
         <div className="related-auctions-scroll">

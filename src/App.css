@@ -520,10 +520,29 @@ a {
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   align-self: flex-start; /* pozicioniraj dugme ispod podataka */
 }
 
+.auction-details-bid-button.shake {
+  animation: shake 0.5s ease-in-out; /* Dodajemo animaciju za podrhtavanje */
+}
+.bid-message {
+  font-size: 14px;
+  color: green; /* Boja za uspešno bidovanje */
+}
+.bid-message.error {
+  font-size: 14px;
+  color: red; /* Boja za neuspešno bidovanje */
+}
+@keyframes shake {
+  0% { transform: translateX(0); } /* Početni položaj */
+  20% { transform: translateX(-10px); } /* Pomera se nalevo */
+  40% { transform: translateX(10px); } /* Pomera se nadesno */
+  60% { transform: translateX(-10px); } /* Pomera se nalevo */
+  80% { transform: translateX(10px); } /* Pomera se nadesno */
+  100% { transform: translateX(0); } /* Vraća se na početni položaj */
+}
 .auction-details-bid-button:hover {
   background-color: #0056b3;
 }
