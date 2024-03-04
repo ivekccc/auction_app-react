@@ -40,9 +40,24 @@ function App() {
   };
 
   useEffect(() => {
+    let url = isLoggedIn() ? '/api/allAuctions' : '/api/allAuctionsUnprotected';
     if (!auctions) {
-      axios.get('api/allAuctions').then((res) => {
-        setAuctions(res.data.auctions);
+      let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url:  url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' +token
+        }
+      };
+
+      axios.request(config)
+      .then((response) => {
+        setAuctions(response.data.auctions);
+      })
+      .catch((error) => {
+        console.log(error);
       });
     }
   }, [auctions]);
