@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ikonica from './img/ikonica-removebg-preview.png';
-import axios from 'axios';
+
 
 
 function NavBar({ token, userData ,logedUser}) {
@@ -50,6 +50,7 @@ function NavBar({ token, userData ,logedUser}) {
               <div className="userDropdown" ref={dropdownRef}>
                 <div className="dropdownItem"><a href="/deposit">Deposit</a></div>
                 <div className="dropdownItem"><a href="/profile">Profile</a></div>
+                <div className="dropdownItem"><a href="myauctions">My Auctions</a></div>
                 <div className="dropdownItem" onClick={handleLogout}>Logout</div>
               </div>
             )}

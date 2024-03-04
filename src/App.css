@@ -753,3 +753,66 @@ a {
   box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.5);
 }
 
+/*CSS MyAuctionsPage*/
+
+/* MyAuctionsPage.css */
+
+.myauctions-page-container {
+  margin: 20px;
+}
+
+.myauctions-page-title {
+  color: #005580;
+  text-align: center;
+}
+
+.myauctions-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.myauction-card {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+}
+
+.myauction-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.myauction-details {
+  padding: 10px;
+}
+
+.myauction-title {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.myauction-description {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.myauction-price {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.myauction-start,
+.myauction-end {
+  font-size: 14px;
+  color: #777;
+}
+
+

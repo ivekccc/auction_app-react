@@ -40,7 +40,7 @@ function CreateAuction({ categories }) {
             console.log(res.data);
             if (res.data === "Auction created successfully.") {
                 setSnackbarMessage(res.data);
-                formRef.current.reset();
+               // formRef.current.reset();
             } else {
                 // Ako odgovor sadrži greške, prikažemo ih
                 const errorMessages = Object.values(res.data).flat().join(' ');
