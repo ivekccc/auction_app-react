@@ -757,62 +757,76 @@ a {
 
 /* MyAuctionsPage.css */
 
+#myAuctionsPage {
+  background: linear-gradient(to bottom, #cce6e6, #8bc3e6);
+  height: 100vh;
+  display: flex;
+  padding-top: 2%;
+}
+
+
 .myauctions-page-container {
-  margin: 20px;
+  max-width: 800px;
+  min-width: 800px;
+  height: fit-content;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .myauctions-page-title {
-  color: #005580;
+  font-size: 24px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.myauctions-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.table-container {
+  margin-top: 40px;
 }
 
-.myauction-card {
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  background-color: #f9f9f9;
-}
-
-.myauction-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.myauction-details {
-  padding: 10px;
-}
-
-.myauction-title {
+.table-title {
   font-size: 20px;
-  margin-bottom: 5px;
-}
-
-.myauction-description {
-  font-size: 16px;
   margin-bottom: 10px;
 }
 
-.myauction-price {
-  font-size: 16px;
-  margin-bottom: 5px;
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.myauction-start,
-.myauction-end {
-  font-size: 14px;
-  color: #777;
+.table-header {
+  font-weight: bold;
+  padding: 12px;
+  text-align: left;
+  background-color: #f2f2f2;
+  border-bottom: 2px solid #ddd;
 }
+
+.table-data {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.product-column {
+  display: flex;
+  align-items: center;
+}
+
+.success-icon {
+  color: green;
+  margin-right: 5px;
+}
+
+.error-icon {
+  color: red;
+  margin-right: 5px;
+}
+
 
 
