@@ -31,13 +31,22 @@ function MyAuctionsPage({ token }) {
             'Authorization': 'Bearer ' + token
           }
         });
-        setAuctions(response.data);
+        const data = await Promise.all(response.data.map(async (auction) => {
+          // Dohvati ime trenutnog ponuđača
+          const bidder = await getBuyer(auction.current_bidder);
+          return {
+            ...auction,
+            current_bidder: bidder ? bidder.name : 'No current bidder'
+          };
+        }));
+        setAuctions(data);
       } catch (error) {
         console.error('Error fetching auctions:', error);
       }
     };
     fetchData();
   }, [token]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,58 +91,98 @@ function MyAuctionsPage({ token }) {
   return (
     <div id="myAuctionsPage">
     <div className="myauctions-page-container">
-      <h1 className="myauctions-page-title">My Ongoing Auctions</h1>
       <div className="myauctions-list">
-        {/* Rendering auctions */}
+      <div className="table-container">
+  <h2 className="table-title">Ongoing Auctions</h2>
+  {auctions.length > 0 ? (
+    <table className="table">
+      <thead>
+        <tr>
+          <th className="table-header">Product</th>
+          <th className="table-header">Auction ID</th>
+          <th className="table-header">Auction Category</th>
+          <th className="table-header">Current Bidder</th>
+          <th className="table-header">Start Price</th>
+          <th className="table-header">Current Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {auctions.map(auction => (
+          <tr key={auction.id}>
+            <td className="table-data product-column">{auction.product_name}</td>
+            <td className="table-data">{auction.id}</td>
+            <td className="table-data">{auction.category_id}</td>
+            <td className="table-data">{auction.current_bidder ?? 'No current bidder'}</td>
+            <td className='table-data'>{auction.start_price}</td>
+            <td className="table-data">${auction.current_price}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  ) : (
+    <p className='EmptyMessage'>No Ongoing auctions</p>
+  )}
+</div>
+
       </div>
 
       <div className="table-container">
-        <h2 className="table-title">Successful Auctions</h2>
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="table-header">Product</th>
-              <th className="table-header">Auction ID</th>
-              <th className="table-header">Buyer</th>
-              <th className="table-header">Phone Number</th>
-              <th className="table-header">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {successfulPurchases.map(purchase => (
-              <tr key={purchase.id}>
-                <td className="table-data product-column"><BsCheckCircleFill className="success-icon" />{purchase.product_name}</td>
-                <td className="table-data">{purchase.auction_id}</td>
-                <td className="table-data">{purchase.buyer_name}</td>
-                <td className="table-data">{purchase.buyer_phone}</td>
-                <td className="table-data">${purchase.price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+  <h2 className="table-title">Successful Auctions</h2>
+  {successfulPurchases.length > 0 ? (
+    <table className="table">
+      <thead>
+        <tr>
+          <th className="table-header">Product</th>
+          <th className="table-header">Auction ID</th>
+          <th className="table-header">Buyer</th>
+          <th className="table-header">Phone Number</th>
+          <th className="table-header">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {successfulPurchases.map(purchase => (
+          <tr key={purchase.id}>
+            <td className="table-data product-column"><BsCheckCircleFill className="success-icon" />{purchase.product_name}</td>
+            <td className="table-data">{purchase.auction_id}</td>
+            <td className="table-data">{purchase.buyer_name}</td>
+            <td className="table-data">{purchase.buyer_phone}</td>
+            <td className="table-data">${purchase.price}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  ) : (
+    <p className='EmptyMessage'>No Successful auctions</p>
+  )}
+</div>
 
-      <div className="table-container">
-        <h2 className="table-title">Unsuccessful Auctions</h2>
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="table-header">Product</th>
-              <th className="table-header">Auction ID</th>
-              <th className="table-header">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-          {unsuccessfulPurchases.map(purchase => (
-              <tr key={purchase.id}>
-                <td className="table-data product-column"><VscError className="error-icon" />{purchase.product_name}</td>
-                <td className="table-data">{purchase.auction_id}</td>
-                <td className="table-data">${purchase.price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+
+<div className="table-container">
+  <h2 className="table-title">Unsuccessful Auctions</h2>
+  {unsuccessfulPurchases.length > 0 ? (
+    <table className="table">
+      <thead>
+        <tr>
+          <th className="table-header">Product</th>
+          <th className="table-header">Auction ID</th>
+          <th className="table-header">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {unsuccessfulPurchases.map(purchase => (
+          <tr key={purchase.id}>
+            <td className="table-data product-column"><VscError className="error-icon" />{purchase.product_name}</td>
+            <td className="table-data">{purchase.auction_id}</td>
+            <td className="table-data">${purchase.price}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  ) : (
+    <p className='EmptyMessage'>No Unsuccessful auctions</p>
+  )}
+</div>
+
     </div>
     </div>
   );

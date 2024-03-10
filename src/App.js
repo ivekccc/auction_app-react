@@ -19,23 +19,6 @@ function App() {
   const [logedUser, setLogedUser] = useState({
     "name":"","username":"","email":"","phone_number":"","balance":0
   });
-  const [timeRemaining, setTimeRemaining] = useState(null);
-
-  useEffect(() => {
-    console.log(timeRemaining);
-    if (timeRemaining === 'Auction is closed') {
-      // Poziv komande kada tajmer dostigne 0
-      axios.post('api/close-auctions')
-        .then(response => {
-          // Obrada odgovora ako je potrebno
-          console.log('Auctions closed successfully');
-        })
-        .catch(error => {
-          console.error('Error closing auctions:', error);
-        });
-    }
-  }, [timeRemaining]);
-
 
   useEffect(() => {
     if (token) {
@@ -116,8 +99,7 @@ function App() {
           <Route path="/deposit" element={<DepositPage token={token} logedUser={logedUser} setLogedUser={setLogedUser}/>}/>
           <Route path="profile" element={<ProfilePage logedUser={logedUser} setLogedUser={setLogedUser} token={token}/>}></Route>
           <Route path="/myauctions" element={<MyAuctionsPage token={token} />} />
-          <Route path="/auction/:id" element={<AuctionDetails categories={categories} token={token} userData={userData}
-          timeRemaining={timeRemaining} setTimeRemaining={setTimeRemaining}/>} />
+          <Route path="/auction/:id" element={<AuctionDetails categories={categories} token={token} userData={userData} />} />
         </Routes>
       </React.Fragment>
     </BrowserRouter>
