@@ -10,6 +10,7 @@ import AuctionDetails from './AuctionDetails';
 import DepositPage from './DepositPage';
 import ProfilePage from './ProfilePage';
 import MyAuctionsPage from './MyAuctionsPage';
+import MyPurchasesPage from './MyPurchasesPage';
 
 function App() {
   const [token, setToken] = useState(() => sessionStorage.getItem('auth_token'));
@@ -99,6 +100,7 @@ function App() {
           <Route path="/deposit" element={<DepositPage token={token} logedUser={logedUser} setLogedUser={setLogedUser}/>}/>
           <Route path="profile" element={<ProfilePage logedUser={logedUser} setLogedUser={setLogedUser} token={token}/>}></Route>
           <Route path="/myauctions" element={<MyAuctionsPage token={token} />} />
+          <Route path="/mypurchases" element={<MyPurchasesPage token={token} />} /> {/* Dodajemo rutu za MyPurchasesPage */}
           <Route path="/auction/:id" element={<AuctionDetails categories={categories} token={token} userData={userData} />} />
         </Routes>
       </React.Fragment>

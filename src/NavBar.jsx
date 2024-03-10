@@ -50,7 +50,8 @@ function NavBar({ token, userData ,logedUser}) {
               <div className="userDropdown" ref={dropdownRef}>
                 <div className="dropdownItem"><a href="/deposit">Deposit</a></div>
                 <div className="dropdownItem"><a href="/profile">Profile</a></div>
-                <div className="dropdownItem"><a href="myauctions">My Auctions</a></div>
+                <div className="dropdownItem"><a href="/myauctions">My Auctions</a></div>
+                <div className="dropdownItem"><a href="mypurchases">My Pruchases</a></div>
                 <div className="dropdownItem" onClick={handleLogout}>Logout</div>
               </div>
             )}

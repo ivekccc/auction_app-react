@@ -800,6 +800,10 @@ a {
   overflow: hidden;
 }
 
+.table tr:hover{
+  background-color: #f2f2f2;
+}
+
 .table-header {
   font-weight: bold;
   padding: 12px;
@@ -834,4 +838,39 @@ a {
 }
 
 
+/*MyPurchasesPage CSS*/
+
+.my-purchases-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.auctions-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.auctions-table th, .auctions-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.auctions-table th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+  text-align: left;
+}
+
+.auctions-table td {
+  text-align: left;
+}
+
+.auctions-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.auctions-table tr:hover {
+  background-color: #f2f2f2;
+}
 
