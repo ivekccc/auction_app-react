@@ -43,16 +43,25 @@ function NavBar({ token, userData ,logedUser}) {
           <div className="userMenu">
             {logedUser && (
   <div className="userName" ref={userNameRef} onClick={() => setMenuOpen(!menuOpen)}>
-    {logedUser.name} ${parseFloat(logedUser.balance || 0).toFixed(2)}
+    {logedUser.name} {logedUser.isAdmin ? 'Admin' : `$${parseFloat(logedUser.balance || 0).toFixed(2)}`}
   </div>
 )}
             {menuOpen && (
               <div className="userDropdown" ref={dropdownRef}>
-                <div className="dropdownItem"><a href="/deposit">Deposit</a></div>
-                <div className="dropdownItem"><a href="/profile">Profile</a></div>
-                <div className="dropdownItem"><a href="/myauctions">My Auctions</a></div>
-                <div className="dropdownItem"><a href="mypurchases">My Pruchases</a></div>
-                <div className="dropdownItem" onClick={handleLogout}>Logout</div>
+                {logedUser.isAdmin ? (
+                  <>
+                    <div className="dropdownItem"><a href="/profile">Profile</a></div>
+                    <div className="dropdownItem" onClick={handleLogout}>Logout</div>
+                  </>
+                ) : (
+                  <>
+                    <div className="dropdownItem"><a href="/deposit">Deposit</a></div>
+                    <div className="dropdownItem"><a href="/profile">Profile</a></div>
+                    <div className="dropdownItem"><a href="/myauctions">My Auctions</a></div>
+                    <div className="dropdownItem"><a href="mypurchases">My Purchases</a></div>
+                    <div className="dropdownItem" onClick={handleLogout}>Logout</div>
+                  </>
+                )}
               </div>
             )}
           </div>
