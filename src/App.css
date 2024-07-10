@@ -96,6 +96,24 @@ a {
 
 /* CSS for Auctions*/
 
+
+.searchBar {
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+}
+
+.searchBarInput{
+  width: 40%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
 .categoryButtons {
   display: flex;
   justify-content: center;
