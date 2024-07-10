@@ -224,8 +224,23 @@ a {
   padding: 2%;
 }
 
+.btn-outline-danger {
+  border-color: #e62716;
+  color: #e62716;
+  width: 120px; /* Širina dugmeta */
+  height: 30px; /* Visina dugmeta */
+  border-radius: 20px; /* Zaobljeni rubovi */
+  font-size: 16px;
+  padding: 2%;
+}
+
 .btn-outline-primary:hover {
   background-color: #007bff;
+  color: #fff;
+}
+
+.btn-outline-danger:hover {
+  background-color: #e62716;
   color: #fff;
 }
 
@@ -561,6 +576,11 @@ a {
   font-size: 14px;
   color: red; /* Boja za neuspešno bidovanje */
 }
+.admin-bid-error{
+  font-size: 14px;
+  color: red;
+}
+
 @keyframes shake {
   0% { transform: translateX(0); } /* Početni položaj */
   20% { transform: translateX(-10px); } /* Pomera se nalevo */

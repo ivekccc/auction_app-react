@@ -89,7 +89,7 @@ function App() {
       <React.Fragment>
         <NavBar token={token} userData={userData} logedUser={logedUser} />
         <Routes>
-          <Route path="/" element={<Auctions auctions={auctions} categories={categories} />} />
+          <Route path="/" element={<Auctions auctions={auctions} categories={categories} logedUser={logedUser} />} />
           <Route
             exact
             path="/create_auction"

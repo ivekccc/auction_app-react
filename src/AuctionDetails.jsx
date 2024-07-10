@@ -184,12 +184,14 @@ function AuctionDetails({ categories, token, userData }) {
               </p>
             )}
           </div>
-          <button className={`auction-details-bid-button ${buttonShaking ? "shake" : ""}`} onClick={handleBid} disabled={timeRemaining === 'Auction is closed'}>Bid Now</button>
+          <button className={`auction-details-bid-button ${buttonShaking ? "shake" : ""}`} onClick={handleBid} disabled={timeRemaining === 'Auction is closed' || userData?.isAdmin}>Bid Now</button>
           {bidMessage && (
   <p className={`bid-message ${bidMessage.startsWith("Error") ? "error" : ""}`}>
     {bidMessage}
   </p>
-)}
+)
+}
+<p class="admin-bid-error">{userData?.isAdmin ? "Admins can't bid" : ""}</p>
         </div>
       </div>
 

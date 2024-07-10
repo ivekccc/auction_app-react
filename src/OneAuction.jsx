@@ -1,9 +1,32 @@
 import React from 'react'
 import './App.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
-function OneAuction({ auction }) {
+
+
+
+function OneAuction({ auction,logedUser,isActive }) {
+
+    const deleteAuction = (auctionId) => {
+        const token = sessionStorage.getItem('auth_token');
+        axios.delete(`/api/delete-auction/${auctionId}`, {
+            headers: {
+                Authorization: `Bearer ${token}` // Pretpostavljam da imate token u nekom kontekstu ili stanju
+            }
+        })
+        .then(response => {
+            console.log("Auction deleted successfully", response);
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error("There was an error deleting the auction!", error);
+        });
+    };
+
+
+
     return (
         <div className="card">
             <div className="card-header">
@@ -23,6 +46,9 @@ function OneAuction({ auction }) {
             </div>
             <div className='card-footer'>
             <Link to={`/auction/${auction.id}`} className="btn btn-outline-primary">See more</Link>
+            {logedUser.isAdmin && !isActive ? (
+                    <Link to="#" onClick={() => deleteAuction(auction.id)} className="btn btn-outline-danger">Archive</Link>
+                ) : null}
             </div>
         </div>
 

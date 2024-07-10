@@ -3,7 +3,7 @@ import OneAuction from './OneAuction';
 import './App.css';
 import axios from 'axios';
 
-function Auctions({ auctions, categories }) {
+function Auctions({ auctions, categories,logedUser }) {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [expiredAuctions, setExpiredAuctions] = useState([]);
     const [activeAuctions, setActiveAuctions] = useState([]);
@@ -73,7 +73,7 @@ function Auctions({ auctions, categories }) {
             .filter(auction => !selectedCategory || auction.category_id === selectedCategory)
             .map(auction => (
                 <div key={auction.id}>
-                    <OneAuction auction={auction} />
+                    <OneAuction auction={auction} logedUser={logedUser} isActive={true} />
                 </div>
             ))
           )}
@@ -83,8 +83,7 @@ function Auctions({ auctions, categories }) {
 
           {expiredAuctions.length > 0 ? expiredAuctions.map(auction => (
             <div key={auction.id}>
-              <OneAuction auction={auction} />
-              <button onClick={() => deleteAuction(auction.id)}>Delete</button>
+              <OneAuction auction={auction} logedUser={logedUser} isActive={false} />
             </div>
           )) : <p>No expired auctions</p>}
         </div>
