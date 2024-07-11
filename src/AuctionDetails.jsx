@@ -208,6 +208,7 @@ function AuctionDetails({ categories, token, userData, currency, exchangeRate })
         </div>
       </div>
     </div>
+
   );
 }
 

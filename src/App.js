@@ -11,6 +11,7 @@ import DepositPage from './DepositPage';
 import ProfilePage from './ProfilePage';
 import MyAuctionsPage from './MyAuctionsPage';
 import MyPurchasesPage from './MyPurchasesPage';
+import Footer from './Footer';
 
 function App() {
   const [token, setToken] = useState(() => sessionStorage.getItem('auth_token'));
@@ -115,6 +116,7 @@ function App() {
           <Route path="/mypurchases" element={<MyPurchasesPage token={token} currency={currency} exchangeRate={exchangeRate} />} />
           <Route path="/auction/:id" element={<AuctionDetails categories={categories} token={token} userData={userData} currency={currency} exchangeRate={exchangeRate} />} />
         </Routes>
+        <Footer></Footer>
       </React.Fragment>
     </BrowserRouter>
   );
