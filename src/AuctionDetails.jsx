@@ -17,18 +17,32 @@ function AuctionDetails({ categories, token, userData, currency, exchangeRate })
   const [bidMessage, setBidMessage] = useState("");
   const [buttonShaking, setButtonShaking] = useState(false);
 
-  useEffect(() => {
+  const fetchAuctionData = () => {
     axios.get(`api/auction/${id}`)
       .then(response => {
         setAuction(response.data.auctions);
         setLoading(false);
-        calculateTimeRemaining(response.data.auctions.end);
+        if (response.data.auctions && response.data.auctions.end) {
+          calculateTimeRemaining(response.data.auctions.end);
+        }
       })
       .catch(error => {
         setError(error.response ? error.response.data.message : 'Unknown error occurred');
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchAuctionData();
   }, [id]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchAuctionData();
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (auction) {
@@ -120,6 +134,11 @@ function AuctionDetails({ categories, token, userData, currency, exchangeRate })
   }
 
   const calculateTimeRemaining = (endTime) => {
+    if (!endTime) {
+      setTimeRemaining('Auction is closed');
+      return;
+    }
+
     const endTimeMillis = new Date(endTime).getTime();
     const nowMillis = new Date().getTime();
     const timeDiff = endTimeMillis - nowMillis;
@@ -138,7 +157,9 @@ function AuctionDetails({ categories, token, userData, currency, exchangeRate })
 
   useEffect(() => {
     const interval = setInterval(() => {
-      calculateTimeRemaining(auction.end);
+      if (auction && auction.end) {
+        calculateTimeRemaining(auction.end);
+      }
     }, 1000);
 
     return () => clearInterval(interval);
@@ -190,7 +211,7 @@ function AuctionDetails({ categories, token, userData, currency, exchangeRate })
               {bidMessage}
             </p>
           )}
-          <p class="admin-bid-error">{userData?.isAdmin ? "Admins can't bid" : ""}</p>
+          <p className="admin-bid-error">{userData?.isAdmin ? "Admins can't bid" : ""}</p>
         </div>
       </div>
 
@@ -208,7 +229,6 @@ function AuctionDetails({ categories, token, userData, currency, exchangeRate })
         </div>
       </div>
     </div>
-
   );
 }
 
