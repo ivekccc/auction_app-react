@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import * as XLSX from 'xlsx';
 import { BsCheckCircleFill } from "react-icons/bs";
 import { VscError } from "react-icons/vsc";
 
@@ -85,6 +86,33 @@ function MyAuctionsPage({ token, currency, exchangeRate }) {
     fetchData();
   }, [token]);
 
+  const downloadExcel = (data, filename) => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    XLSX.writeFile(workbook, filename);
+  };
+
+  const downloadSuccessfulPurchases = () => {
+    const data = successfulPurchases.map(purchase => ({
+      'Product': purchase.product_name,
+      'Auction ID': purchase.auction_id,
+      'Buyer': purchase.buyer_name,
+      'Phone Number': purchase.buyer_phone,
+      'Price': (purchase.price * exchangeRate).toFixed(2) + ' ' + currency
+    }));
+    downloadExcel(data, 'SuccessfulAuctions.xlsx');
+  };
+
+  const downloadUnsuccessfulPurchases = () => {
+    const data = unsuccessfulPurchases.map(purchase => ({
+      'Product': purchase.product_name,
+      'Auction ID': purchase.auction_id,
+      'Price': (purchase.price * exchangeRate).toFixed(2) + ' ' + currency
+    }));
+    downloadExcel(data, 'UnsuccessfulAuctions.xlsx');
+  };
+
   return (
     <div id="myAuctionsPage">
       <div className="myauctions-page-container">
@@ -125,28 +153,31 @@ function MyAuctionsPage({ token, currency, exchangeRate }) {
         <div className="table-container">
           <h2 className="table-title">Successful Auctions</h2>
           {successfulPurchases.length > 0 ? (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th className="table-header">Product</th>
-                  <th className="table-header">Auction ID</th>
-                  <th className="table-header">Buyer</th>
-                  <th className="table-header">Phone Number</th>
-                  <th className="table-header">Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                {successfulPurchases.map(purchase => (
-                  <tr key={purchase.id}>
-                    <td className="table-data product-column"><BsCheckCircleFill className="success-icon" />{purchase.product_name}</td>
-                    <td className="table-data">{purchase.auction_id}</td>
-                    <td className="table-data">{purchase.buyer_name}</td>
-                    <td className="table-data">{purchase.buyer_phone}</td>
-                    <td className="table-data">{(purchase.price * exchangeRate).toFixed(2)} {currency}</td>
+            <>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th className="table-header">Product</th>
+                    <th className="table-header">Auction ID</th>
+                    <th className="table-header">Buyer</th>
+                    <th className="table-header">Phone Number</th>
+                    <th className="table-header">Price</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {successfulPurchases.map(purchase => (
+                    <tr key={purchase.id}>
+                      <td className="table-data product-column"><BsCheckCircleFill className="success-icon" />{purchase.product_name}</td>
+                      <td className="table-data">{purchase.auction_id}</td>
+                      <td className="table-data">{purchase.buyer_name}</td>
+                      <td className="table-data">{purchase.buyer_phone}</td>
+                      <td className="table-data">{(purchase.price * exchangeRate).toFixed(2)} {currency}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <button className="downloadButton" onClick={downloadSuccessfulPurchases}>Download Successful Auctions</button>
+            </>
           ) : (
             <p className='EmptyMessage'>No Successful auctions</p>
           )}
@@ -155,24 +186,27 @@ function MyAuctionsPage({ token, currency, exchangeRate }) {
         <div className="table-container">
           <h2 className="table-title">Unsuccessful Auctions</h2>
           {unsuccessfulPurchases.length > 0 ? (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th className="table-header">Product</th>
-                  <th className="table-header">Auction ID</th>
-                  <th className="table-header">Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                {unsuccessfulPurchases.map(purchase => (
-                  <tr key={purchase.id}>
-                    <td className="table-data product-column"><VscError className="error-icon" />{purchase.product_name}</td>
-                    <td className="table-data">{purchase.auction_id}</td>
-                    <td className="table-data">{(purchase.price * exchangeRate).toFixed(2)} {currency}</td>
+            <>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th className="table-header">Product</th>
+                    <th className="table-header">Auction ID</th>
+                    <th className="table-header">Price</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {unsuccessfulPurchases.map(purchase => (
+                    <tr key={purchase.id}>
+                      <td className="table-data product-column"><VscError className="error-icon" />{purchase.product_name}</td>
+                      <td className="table-data">{purchase.auction_id}</td>
+                      <td className="table-data">{(purchase.price * exchangeRate).toFixed(2)} {currency}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <button className="downloadButton" onClick={downloadUnsuccessfulPurchases}>Download Unsuccessful Auctions</button>
+            </>
           ) : (
             <p className='EmptyMessage'>No Unsuccessful auctions</p>
           )}
