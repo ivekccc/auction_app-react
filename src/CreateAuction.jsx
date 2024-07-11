@@ -122,7 +122,7 @@ function CreateAuction({ categories, currency, exchangeRate }) {
             ))}
           </select>
         </div>
-        <button type="submit" className="btn btn-primary">Add Product</button>
+        <button type="submit" className="btn btn-primary">Add Auction</button>
         {showSnackbar && (
           <div className={`snackbar ${snackbarMessage.includes('successfully') ? 'success' : 'error'}`}>
             {snackbarMessage}
