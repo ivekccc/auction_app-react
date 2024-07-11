@@ -18,8 +18,25 @@ function App() {
   const [auctions, setAuctions] = useState(null);
   const [categories, setCategories] = useState(null);
   const [logedUser, setLogedUser] = useState({
-    "name":"","username":"","email":"","phone_number":"","balance":0
+    name: '', username: '', email: '', phone_number: '', balance: 0
   });
+  const [currency, setCurrency] = useState('USD');
+  const [exchangeRate, setExchangeRate] = useState(1);
+
+  useEffect(() => {
+    if (currency !== 'USD') {
+      axios.get(`https://api.exchangerate-api.com/v4/latest/USD`)
+        .then((response) => {
+          const rate = response.data.rates[currency];
+          setExchangeRate(rate);
+        })
+        .catch((error) => {
+          console.error("There was an error fetching the exchange rate!", error);
+        });
+    } else {
+      setExchangeRate(1);
+    }
+  }, [currency]);
 
   useEffect(() => {
     if (token) {
@@ -37,7 +54,6 @@ function App() {
       setLogedUser(response.data);
     } catch (error) {
       console.error('Error fetching user data:', error);
-      // Handle error, for example, show an error message to the user
     }
   };
 
@@ -47,20 +63,20 @@ function App() {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url:  url,
+        url: url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' +token
+          'Authorization': 'Bearer ' + token
         }
       };
 
       axios.request(config)
-      .then((response) => {
-        setAuctions(response.data.auctions);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((response) => {
+          setAuctions(response.data.auctions);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [auctions]);
 
@@ -87,21 +103,17 @@ function App() {
   return (
     <BrowserRouter>
       <React.Fragment>
-        <NavBar token={token} userData={userData} logedUser={logedUser} />
+        <NavBar token={token} userData={userData} logedUser={logedUser} currency={currency} setCurrency={setCurrency} exchangeRate={exchangeRate} />
         <Routes>
-          <Route path="/" element={<Auctions auctions={auctions} categories={categories} logedUser={logedUser} />} />
-          <Route
-            exact
-            path="/create_auction"
-            element={isLoggedIn() ? <CreateAuction categories={categories} /> : <Navigate to="/login" />}
-          />
+          <Route path="/" element={<Auctions auctions={auctions} categories={categories} logedUser={logedUser} currency={currency} exchangeRate={exchangeRate} />} />
+          <Route exact path="/create_auction" element={isLoggedIn() ? <CreateAuction categories={categories} currency={currency} exchangeRate={exchangeRate} /> : <Navigate to="/login" />} />
           <Route path="/login" element={<LoginPage addToken={addToken} addUser={addUser} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/deposit" element={<DepositPage token={token} logedUser={logedUser} setLogedUser={setLogedUser}/>}/>
-          <Route path="profile" element={<ProfilePage logedUser={logedUser} setLogedUser={setLogedUser} token={token}/>}></Route>
-          <Route path="/myauctions" element={<MyAuctionsPage token={token} />} />
-          <Route path="/mypurchases" element={<MyPurchasesPage token={token} />} /> {/* Dodajemo rutu za MyPurchasesPage */}
-          <Route path="/auction/:id" element={<AuctionDetails categories={categories} token={token} userData={userData} />} />
+          <Route path="/deposit" element={<DepositPage token={token} logedUser={logedUser} setLogedUser={setLogedUser} currency={currency} exchangeRate={exchangeRate} />} />
+          <Route path="profile" element={<ProfilePage logedUser={logedUser} setLogedUser={setLogedUser} token={token} currency={currency} exchangeRate={exchangeRate} />}></Route>
+          <Route path="/myauctions" element={<MyAuctionsPage token={token} currency={currency} exchangeRate={exchangeRate} />} />
+          <Route path="/mypurchases" element={<MyPurchasesPage token={token} currency={currency} exchangeRate={exchangeRate} />} />
+          <Route path="/auction/:id" element={<AuctionDetails categories={categories} token={token} userData={userData} currency={currency} exchangeRate={exchangeRate} />} />
         </Routes>
       </React.Fragment>
     </BrowserRouter>

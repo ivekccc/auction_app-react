@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function ProfilePage({ logedUser, setLogedUser,token }) {
+function ProfilePage({ logedUser, setLogedUser, token, currency, exchangeRate }) {
   const [editable, setEditable] = useState(false);
   const [formData, setFormData] = useState(logedUser);
 
@@ -95,7 +95,7 @@ function ProfilePage({ logedUser, setLogedUser,token }) {
           </div>
           <div className="form-group">
             <label>Balance:</label>
-            <span>${logedUser.balance}</span>
+            <span>{(logedUser.balance * exchangeRate).toFixed(2)} {currency}</span>
           </div>
           <div className="button-group">
             <button type="button" onClick={toggleEdit}>

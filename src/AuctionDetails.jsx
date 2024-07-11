@@ -4,7 +4,7 @@ import axios from 'axios';
 import './App.css';
 import { Link } from 'react-router-dom';
 
-function AuctionDetails({ categories, token, userData }) {
+function AuctionDetails({ categories, token, userData, currency, exchangeRate }) {
   const { id } = useParams();
   const [auction, setAuction] = useState(null);
   const [relatedAuctions, setRelatedAuctions] = useState([]);
@@ -105,8 +105,8 @@ function AuctionDetails({ categories, token, userData }) {
           setButtonShaking(false);
         }, 2000);
         setTimeout(() => {
-        window.location.reload(); // Refresovanje stranice nakon 3 sekunde
-      }, 2000);
+          window.location.reload(); // Refresovanje stranice nakon 3 sekunde
+        }, 2000);
 
       })
       .catch((error) => {
@@ -168,11 +168,11 @@ function AuctionDetails({ categories, token, userData }) {
           <div className="auction-details-text">
             <p><strong>Category:</strong> {categories && categories.find(category => category.id === auction.category_id)?.category_name}</p>
             <p><strong>Owner:</strong> {userName}</p>
-            <p><strong>Start Price:</strong> ${auction.start_price}</p>
+            <p><strong>Start Price:</strong> ${(auction.start_price * exchangeRate).toFixed(2)} {currency}</p>
             <p><strong>Created At:</strong> {auction.start}</p>
             <div className="vertical-space"></div>
             <p><strong>Closing in:</strong> {typeof timeRemaining === 'object' ? `${timeRemaining.days}d ${timeRemaining.hours}h ${timeRemaining.minutes}m ${timeRemaining.seconds}s` : timeRemaining}</p>
-            <p><strong>Current Price:</strong> ${auction.current_price}</p>
+            <p><strong>Current Price:</strong> ${(auction.current_price * exchangeRate).toFixed(2)} {currency}</p>
             {currentBidderName !== null && (
               <p>
                 <strong>Current Bidder:</strong>
@@ -186,12 +186,11 @@ function AuctionDetails({ categories, token, userData }) {
           </div>
           <button className={`auction-details-bid-button ${buttonShaking ? "shake" : ""}`} onClick={handleBid} disabled={timeRemaining === 'Auction is closed' || userData?.isAdmin}>Bid Now</button>
           {bidMessage && (
-  <p className={`bid-message ${bidMessage.startsWith("Error") ? "error" : ""}`}>
-    {bidMessage}
-  </p>
-)
-}
-<p class="admin-bid-error">{userData?.isAdmin ? "Admins can't bid" : ""}</p>
+            <p className={`bid-message ${bidMessage.startsWith("Error") ? "error" : ""}`}>
+              {bidMessage}
+            </p>
+          )}
+          <p class="admin-bid-error">{userData?.isAdmin ? "Admins can't bid" : ""}</p>
         </div>
       </div>
 
