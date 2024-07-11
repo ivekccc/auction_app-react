@@ -45,7 +45,7 @@ function DepositPage({token,logedUser,setLogedUser}) {
 
     return (
         <form className="depositForm" onSubmit={handleDeposit}>
-            <label>Amount:</label>
+            <label>Amount($):</label>
             <input type="number" name="amount" onChange={handleInput} />
             <button type='submit'>Deposit</button>
         </form>
