@@ -40,7 +40,7 @@ function NavBar({ token, userData, logedUser, currency, setCurrency, exchangeRat
       </div>
       <div className="currencySelector">
         <label htmlFor="currency">Currency:</label>
-        <select name="currency" value={currency} onChange={handleCurrencyChange}>
+        <select className="currencySelect" name="currency" value={currency} onChange={handleCurrencyChange}>
           <option value="USD">USD</option>
           <option value="RSD">RSD</option>
           {/* Add other currency options here */}
