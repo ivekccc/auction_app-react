@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 function DepositPage({ token, logedUser, setLogedUser, currency, exchangeRate }) {
   const [amount, setAmount] = useState('');
-  let navigate = useNavigate();
+
 
   function handleDeposit(event) {
     event.preventDefault();

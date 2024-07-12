@@ -18,7 +18,7 @@ function CreateAuction({ categories, currency, exchangeRate }) {
       const timeout = setTimeout(() => {
         setShowSnackbar(false);
         setSnackbarMessage("");
-      }, 3000); // Sakrij Snackbar nakon 3 sekunde
+      }, 3000);
       return () => clearTimeout(timeout);
     }
   }, [showSnackbar]);
@@ -42,14 +42,12 @@ function CreateAuction({ categories, currency, exchangeRate }) {
       if (res.data === "Auction created successfully.") {
         setSnackbarMessage(res.data);
       } else {
-        // Ako odgovor sadrži greške, prikažemo ih
         const errorMessages = Object.values(res.data).flat().join(' ');
         setSnackbarMessage(errorMessages);
       }
       setShowSnackbar(true);
     }).catch((error) => {
       console.error('Error adding product:', error);
-      // Ako dođe do greške u komunikaciji sa serverom, prikažemo generičku poruku
       setSnackbarMessage("Error adding product.");
       setShowSnackbar(true);
     });
@@ -78,7 +76,7 @@ function CreateAuction({ categories, currency, exchangeRate }) {
             name="description"
             placeholder="Enter product description"
             onInput={handleInput}
-            style={{ height: "150px", resize: "vertical" }} // Postavljamo visinu i omogućavamo vertikalno proširenje
+            style={{ height: "150px", resize: "vertical" }}
           ></textarea>
         </div>
         <div className="form-group mb-3" style={{ display: "flex", alignItems: "center" }}>
@@ -92,7 +90,7 @@ function CreateAuction({ categories, currency, exchangeRate }) {
               name="start_price"
               placeholder="Enter starting price"
               onInput={handleInput}
-              style={{ maxWidth: "100px", marginLeft: "0.5rem" }} // Dodali smo maksimalnu širinu i malo margine za unos polja
+              style={{ maxWidth: "100px", marginLeft: "0.5rem" }}
             />
             <span className="input-group-text">.00</span>
           </div>

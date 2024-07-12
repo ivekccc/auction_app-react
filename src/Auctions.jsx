@@ -10,34 +10,16 @@
     const [expiredAuctions, setExpiredAuctions] = useState([]);
     const [activeAuctions, setActiveAuctions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortOrder, setSortOrder] = useState('default'); // Added 'default' state for sorting
+    const [sortOrder, setSortOrder] = useState('default');
     const [currentActivePage, setCurrentActivePage] = useState(1);
     const [currentExpiredPage, setCurrentExpiredPage] = useState(1);
-    const [itemsPerPage] = useState(5); // You can change this number based on how many items you want per page
+    const [itemsPerPage] = useState(5);
 
-    // Function to filter auctions by selected category
+
     const filterAuctionsByCategory = (categoryId) => {
       setSelectedCategory(categoryId === selectedCategory ? null : categoryId);
     };
 
-    // Function to delete an auction
-    const deleteAuction = (auctionId) => {
-      const token = sessionStorage.getItem('auth_token');
-      axios.delete(`/api/delete-auction/${auctionId}`, {
-        headers: {
-          Authorization: `Bearer ${token}` // Assuming you have a token in some context or state
-        }
-      })
-        .then(response => {
-          console.log("Auction deleted successfully", response);
-          window.location.reload();
-        })
-        .catch(error => {
-          console.error("There was an error deleting the auction!", error);
-        });
-    };
-
-    // Function to update expired and active auctions
     const updateAuctions = () => {
       if (auctions) {
         const now = new Date().getTime();
@@ -48,22 +30,22 @@
       }
     };
 
-    // Function to filter expired and active auctions
+
     useEffect(() => {
       updateAuctions();
-      const interval = setInterval(updateAuctions, 60000); // Update every 60 seconds
-      return () => clearInterval(interval); // Clear interval when component unmounts
+      const interval = setInterval(updateAuctions, 60000);
+      return () => clearInterval(interval);
     }, [auctions]);
 
-    // Function to filter auctions by product name
+
     const filterAuctionsByName = (auctions, searchTerm) => {
       return auctions.filter(auction => auction.product_name.toLowerCase().includes(searchTerm.toLowerCase()));
     };
 
-    // Function to sort auctions by price
+
     const sortAuctionsByPrice = (auctions, order) => {
       if (order === 'default') {
-        return auctions; // No sorting, return as is
+        return auctions;
       }
       return auctions.sort((a, b) => {
         if (order === 'asc') {

@@ -32,11 +32,11 @@ function NavBar({ token, userData, logedUser, currency, setCurrency, exchangeRat
 
   return (
     <div className="navBar">
-      <Link to="/">Auction App</Link>
+      <a href="/">Auction App</a>
       <img src={ikonica} alt="ikonica" className="ikonica" />
       <h1 className="navBarH1">Best Auction Site</h1>
       <div className="createAuctionLink">
-        <a href="/create_auction">Create New Auction!</a>
+        <Link to="/create_auction">Create New Auction!</Link>
       </div>
       <div className="currencySelector">
         <label htmlFor="currency">Currency:</label>

@@ -39,7 +39,7 @@ function AuctionDetails({ categories, token, userData, currency, exchangeRate })
   useEffect(() => {
     const interval = setInterval(() => {
       fetchAuctionData();
-    }, 10000);
+    }, 20000);
 
     return () => clearInterval(interval);
   }, []);

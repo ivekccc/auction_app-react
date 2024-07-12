@@ -33,7 +33,7 @@ function LoginPage({ addToken, addUser }) {
           setShowNotification(true);
           setTimeout(() => {
             navigate("/");
-          }, 2000); // Preusmerava na / nakon 2 sekunde
+          }, 2000);
         } else {
           setLoginSuccess(false);
         setLoginMessage("Login failed. Please try again.");
